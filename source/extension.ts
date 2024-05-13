@@ -56,10 +56,12 @@ async function newFromTemplate(uri: Uri | undefined) {
 
     const fileContent = render(engine, contentTemplate, data, hbsConfig);
 
-    return { filePath, fileContent, open };
+    return { fileName, filePath, fileContent, open };
   });
 
-  files?.forEach(async ({ filePath, fileContent, open }) => {
+  files?.forEach(async ({ fileName, filePath, fileContent, open }) => {
+    if (!fileName) return;
+
     await fse.outputFile(filePath, fileContent);
 
     if (open) {
